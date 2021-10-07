@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Matriz_Practica1.dir/main.cpp.o CMakeFiles/Matriz_Practica1.dir/smart.cpp.o CMakeFiles/Matriz_Practica1.dir/smart_ut.cpp.o -o Matriz_Practica1 

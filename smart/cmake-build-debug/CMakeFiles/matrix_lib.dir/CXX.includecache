@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alvaro/CLionProjects/smart/smart.cpp
+smart.hpp
+/home/alvaro/CLionProjects/smart/smart.hpp
+sstream
+-
+
+/home/alvaro/CLionProjects/smart/smart.hpp
+mincontracts/mincontracts.hpp
+/home/alvaro/CLionProjects/smart/mincontracts/mincontracts.hpp
+memory
+-
+
