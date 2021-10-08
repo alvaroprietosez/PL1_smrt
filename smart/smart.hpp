@@ -26,12 +26,16 @@ class smart {
         smart &operator=(const smart &m);
         smart(smart &&m) noexcept;
         smart &operator=(smart &&m) noexcept;
+        ~smart() noexcept {
+            filas_ = 0;
+            columnas_ = 0;
+            vec_ = nullptr;
+        }
 
         bool operator==(const smart &v) const noexcept;
 
         [[nodiscard]] int filas() const noexcept { return filas_; }
         [[nodiscard]] int columnas() const noexcept { return columnas_; }
-        [[nodiscard]] bool is_available() const noexcept { return vec_ != nullptr; } // quitar
 
         double operator()(int x, int y) const;
         double &operator()(int x, int y);
@@ -41,10 +45,10 @@ class smart {
         smart &operator*=(const smart &m);
 };
 
-smart operator+(const smart& m, const smart& n);
-smart operator-(const smart& m, const smart& n);
-smart operator*(const smart& m, const smart& n);
+smart operator+(const smart &m, const smart &n);
+smart operator-(const smart &m, const smart &n);
+smart operator*(const smart &m, const smart &n);
 
-std::ostream &operator<<(std::ostream &os, smart &m);
+std::ostream &operator<<(std::ostream &os, const smart &m);
 
 #endif //MATRIZ_PRACTICA1_SMART_HPP
