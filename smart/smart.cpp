@@ -5,8 +5,11 @@
 #include "smart.hpp"
 #include <sstream>
 
-smart::smart(int filas, int columnas) :filas_{filas}, columnas_{columnas}, vec_{std::make_unique<double[]>(filas_ * columnas_)} {
-    CONTRACT_PRE(filas > 0 && columnas > 0);
+smart::smart(int filas, int columnas)
+    : filas_{filas},
+      columnas_{columnas},
+      vec_{std::make_unique<double[]>(filas_ * columnas_)} {
+    CONTRACT_PRE(filas > 0 && columnas > 0)
 }
 
 smart::smart(const smart &m)
