@@ -1,6 +1,7 @@
 //
 // Created by ALVARO & MARCOS  on 6/10/21.
 //
+//Github es lo mejor del mundo
 
 #ifndef MATRIZ_PRACTICA1_SMART_HPP
 #define MATRIZ_PRACTICA1_SMART_HPP
