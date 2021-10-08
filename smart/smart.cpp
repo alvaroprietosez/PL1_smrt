@@ -27,7 +27,7 @@ smart &smart::operator=(const smart &m) {
     std::copy_n(m.vec_.get(), m.filas_ * m.columnas_, aux.get());
     filas_ = m.filas_;
     columnas_ = m.columnas_;
-    vec_= std::move(aux);
+    vec_= std::move(aux); // aux will be deleted after this
     return *this;
 }
 
