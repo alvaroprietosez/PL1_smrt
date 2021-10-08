@@ -64,6 +64,7 @@ double &smart::operator()(int x, int y) {
     return vec_[columnas_ * x + y];
 }
 
+/*
 bool smart::operator==(const smart &v) const noexcept {
     if (filas_ != v.filas_ || columnas_ != v.columnas_)
         return false;
@@ -75,6 +76,7 @@ bool smart::operator==(const smart &v) const noexcept {
 
     return true;
 }
+ */
 
 smart &smart::operator+=(const smart &m) {
     CONTRACT_PRE(filas_ == m.filas_ && columnas_ == m.columnas_)

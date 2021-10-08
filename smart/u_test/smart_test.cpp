@@ -37,6 +37,7 @@ TEST(test_smart, asignacion_copia) {
     a(1,0) = 37;
     smart b;
     b = a;
+    // b = b; // Needed to get 100% code coverage, but not compiling
     b(1,1) = 22;
     ASSERT_TRUE(b.filas() == a.filas());
     ASSERT_TRUE(a(1,1) == 78 && a(1,0) == 37 && b(1,1) == 22 && b(1,0) == 37);
@@ -61,10 +62,17 @@ TEST(test_smart, asignacion_movimiento) {
     a(1,0) = 37;
     smart b;
     b = std::move(a);
+    // b = std::move(b); // Needed to get 100% code coverage, but not compiling
     ASSERT_TRUE(a.filas() == 0 && a.columnas() == 0);
     b(1,1) = 22;
     ASSERT_TRUE(b.filas() == 2 && b.columnas() == 2);
     ASSERT_TRUE(b(1,1) == 22 && b(1,0) == 37);
+}
+
+TEST(test_primitive, acceso){
+
+    smart const a{2,4};
+    ASSERT_TRUE(a(1,3) == 0);
 }
 
 TEST(test_smart, suma){
