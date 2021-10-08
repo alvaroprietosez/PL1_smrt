@@ -23,11 +23,11 @@ smart &smart::operator=(const smart &m) {
     if (this == &m)
         return *this;
 
-    std::unique_ptr<double[]> aux = std::make_unique<double[]>(m.filas_ * m.columnas_);
-    std::copy_n(m.vec_.get(), m.filas_ * m.columnas_, aux.get());
+    std::unique_ptr<double[]> temp = std::make_unique<double[]>(m.filas_ * m.columnas_);
+    std::copy_n(m.vec_.get(), m.filas_ * m.columnas_, temp.get());
     filas_ = m.filas_;
     columnas_ = m.columnas_;
-    vec_= std::move(aux); // aux will be deleted after this
+    vec_= std::move(temp); // temp will be deleted after this
 
     return *this;
 }
