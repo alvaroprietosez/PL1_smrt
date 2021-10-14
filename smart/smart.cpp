@@ -64,19 +64,7 @@ double &smart::operator()(int x, int y) {
     return vec_[columnas_ * x + y];
 }
 
-/*
-bool smart::operator==(const smart &v) const noexcept {
-    if (filas_ != v.filas_ || columnas_ != v.columnas_)
-        return false;
 
-    int index = -1;
-    while (++index < filas_ * columnas_)
-        if (vec_[index] != v.vec_[index])
-            return false;
-
-    return true;
-}
- */
 
 smart &smart::operator+=(const smart &m) {
     CONTRACT_PRE(filas_ == m.filas_ && columnas_ == m.columnas_)
@@ -101,15 +89,21 @@ smart &smart::operator*=(const smart &m) {
 
     smart temp{filas_, m.columnas_};
     for (int i = 0; i < temp.filas_; ++i)
-        for (int j = 0; j < temp.columnas_; ++j) {
-            double sum = 0;
-            for (int k = 0; k < columnas_; ++k)
-                sum += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
-            temp.vec_[i * m.columnas_ + j] = sum;
-        }
+        for (int k = 0; k < columnas_; ++k) // k before j is faster, closer elements in memory -> faster memory access
+            for (int j = 0; j < temp.columnas_; ++j)
+                temp.vec_[i * m.columnas_ + j] += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
     *this = std::move(temp);
 
     return *this;
+}
+
+double smart::diagonal() const noexcept {
+    CONTRACT_PRE(filas_==columnas_)
+    double result = 0;
+    for (int i = 0; i < filas_; ++i)
+        result += vec_[i * columnas_ + i];
+
+    return result;
 }
 
 smart operator+(const smart &m, const smart &n) {

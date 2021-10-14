@@ -69,7 +69,7 @@ TEST(test_smart, asignacion_movimiento) {
     ASSERT_TRUE(b(1,1) == 22 && b(1,0) == 37);
 }
 
-TEST(test_primitive, acceso){
+TEST(test_smart, acceso){
 
     smart const a{2,4};
     ASSERT_TRUE(a(1,3) == 0);
