@@ -2,6 +2,7 @@
 #include <random>
 #include "smart.hpp"
 #include <chrono>
+#include <string>
 
 int ask_user_for_numbers();
 
@@ -9,33 +10,59 @@ void set_values_for_matrix(smart &first_matrix, smart &second_matrix);
 
 int main() {
 
-    int n = ask_user_for_numbers();
+    std::vector<int> dimensions{100, 200, 500, 1000, 2000};
+    std::vector<std::string> methods{"Suma", "IJK", "IKJ"};
+    int method = 0;
 
-    smart first_matrix{n, n};
-    smart second_matrix{n, n};
+    for (int dim: dimensions) {
 
-    set_values_for_matrix(first_matrix, second_matrix);
+        //int n = ask_user_for_numbers();
+        int n = dim;
 
-    // Sum both matrix
-    first_matrix += second_matrix;
+        smart first_matrix{n, n};
+        smart second_matrix{n, n};
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        set_values_for_matrix(first_matrix, second_matrix);
 
-    // Find sum's square
-    first_matrix *= first_matrix;
+        // Sum both matrix
+        first_matrix += second_matrix;
 
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+        while (method < 3) {
 
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count() << "[ns]" << std::endl;
+            long duration = 0L;
+
+            for (int i = 0; i < 25; ++i) {
+
+                std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+                smart temp_matrix{first_matrix};
+                temp_matrix *= temp_matrix;
+
+                std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+                duration += std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
+
+            }
+
+            smart::next_method();
+
+            std::cout << "Time average for method " << methods[method++] <<
+                      " and " << dim << " squared dimensions = " << (duration / 25L) << "[us]" << std::endl;
+
+        }
+
+        method = 0;
+    }
 
     // std::cout << first_matrix << "\n";
 
     // Print square's diagonal
-    std::cout << "Starting from two square matrix of " << n << " dimensions... \n"
-    << "After sum them into a third one and  squaring it... \n"
-    << "The result of adding their diagonal elements is: "
-    << first_matrix.diagonal() << "\n";
-
+    /*
+    std::cout << "Starting from two square matrix of " << n << " squared dimensions... \n"
+        << "After sum them into a third one and  squaring it... \n"
+        << "The result of adding their diagonal elements is: "
+        << first_matrix.diagonal() << "\n";
+    */
     return 0;
 }
 
@@ -64,4 +91,3 @@ void set_values_for_matrix(smart &first_matrix, smart &second_matrix) {
         }
 
 }
-

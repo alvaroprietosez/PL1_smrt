@@ -5,6 +5,8 @@
 #include "smart.hpp"
 #include <iomanip>
 
+int method = 0;
+
 smart::smart(int filas, int columnas)
     : filas_{filas},
       columnas_{columnas},
@@ -88,22 +90,50 @@ smart &smart::operator*=(const smart &m) {
     CONTRACT_PRE(columnas_ == m.filas_)
 
     smart temp{filas_, m.columnas_};
-    for (int i = 0; i < temp.filas_; ++i)
-        for (int k = 0; k < columnas_; ++k) // k before j is faster, closer elements in memory -> faster memory access
+
+    if (method == 0) {
+        for (int i = 0; i < temp.filas_; ++i)
+            for (int j = 0; j < temp.columnas_; ++j) {
+                double sum = 0;
+                for (int k = 0;
+                     k < columnas_; ++k) // k before j is faster, closer elements in memory -> faster memory access
+                     sum += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
+                temp.vec_[i * m.columnas_ + j] = sum;
+            }
+    }
+    else if (method == 1) {
+        for (int i = 0; i < temp.filas_; ++i)
             for (int j = 0; j < temp.columnas_; ++j)
-                temp.vec_[i * m.columnas_ + j] += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
+                for (int k = 0; k < columnas_; ++k) // k before j is faster, closer elements in memory -> faster memory access
+                    temp.vec_[i * m.columnas_ + j] += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
+
+    }
+    else {
+        for (int i = 0; i < temp.filas_; ++i)
+            for (int k = 0; k < columnas_; ++k) // k before j is faster, closer elements in memory -> faster memory access
+                for (int j = 0; j < temp.columnas_; ++j)
+                    temp.vec_[i * m.columnas_ + j] += vec_[i * columnas_ + k] * m.vec_[k * m.columnas_ + j];
+
+
+    }
+
     *this = std::move(temp);
 
     return *this;
 }
 
 double smart::diagonal() const noexcept {
-    CONTRACT_PRE(filas_==columnas_)
+    CONTRACT_PRE(filas_ == columnas_)
+
     double result = 0;
     for (int i = 0; i < filas_; ++i)
         result += vec_[i * columnas_ + i];
 
     return result;
+}
+
+void smart::next_method() {
+    method = (method + 1) % 3;
 }
 
 smart operator+(const smart &m, const smart &n) {
@@ -130,8 +160,6 @@ std::ostream &operator<<(std::ostream &os, const smart &m) {
 
     return os;
 }
-
-
 
 
 
