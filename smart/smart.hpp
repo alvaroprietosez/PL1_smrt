@@ -5,8 +5,8 @@
 
 #ifndef MATRIZ_PRACTICA1_SMART_HPP
 #define MATRIZ_PRACTICA1_SMART_HPP
-#include "mincontracts/mincontracts.hpp"
 
+#include "mincontracts/mincontracts.hpp"
 #include <memory>
 
 class smart {
@@ -26,6 +26,7 @@ class smart {
         smart &operator=(const smart &m);
         smart(smart &&m) noexcept;
         smart &operator=(smart &&m) noexcept;
+
         ~smart() noexcept {
             filas_ = 0;
             columnas_ = 0;
@@ -43,7 +44,7 @@ class smart {
         smart &operator-=(const smart &m);
         smart &operator*=(const smart &m);
 
-        static void next_method();
+        //static void next_method();
 };
 
 smart operator+(const smart &m, const smart &n);

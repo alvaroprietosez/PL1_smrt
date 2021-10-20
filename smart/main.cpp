@@ -8,7 +8,19 @@ int ask_user_for_numbers();
 
 void set_values_for_matrix(smart &first_matrix, smart &second_matrix);
 
+void release_main();
+
+void performance_tests();
+
 int main() {
+
+    //performance_tests();
+    release_main();
+
+    return 0;
+}
+
+void performance_tests() {
 
     std::vector<int> dimensions{100, 200, 500, 1000, 2000};
     std::vector<std::string> methods{"Suma", "IJK", "IKJ"};
@@ -16,7 +28,6 @@ int main() {
 
     for (int dim: dimensions) {
 
-        //int n = ask_user_for_numbers();
         int n = dim;
 
         smart first_matrix{n, n};
@@ -24,7 +35,6 @@ int main() {
 
         set_values_for_matrix(first_matrix, second_matrix);
 
-        // Sum both matrix
         first_matrix += second_matrix;
 
         while (method < 3) {
@@ -44,26 +54,40 @@ int main() {
 
             }
 
-            smart::next_method();
+            // primitive::next_method();
 
             std::cout << "Time average for method " << methods[method++] <<
                       " and " << dim << " squared dimensions = " << (duration / 25L) << "[us]" << std::endl;
-
         }
 
         method = 0;
     }
+}
 
-    // std::cout << first_matrix << "\n";
+void release_main() {
 
-    // Print square's diagonal
-    /*
+    int n = ask_user_for_numbers();
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    smart first_matrix{n, n};
+    smart second_matrix{n, n};
+
+    set_values_for_matrix(first_matrix, second_matrix);
+
+    // Sum both matrix
+    first_matrix += second_matrix;
+
+    first_matrix *= first_matrix;
     std::cout << "Starting from two square matrix of " << n << " squared dimensions... \n"
-        << "After sum them into a third one and  squaring it... \n"
-        << "The result of adding their diagonal elements is: "
-        << first_matrix.diagonal() << "\n";
-    */
-    return 0;
+              << "After sum them before squaring the result... \n"
+              << "The matrix is \n" << first_matrix << "\n"
+              << "The result of adding their diagonal elements is: "
+              << first_matrix.diagonal() << "\n";
+
+    std::cout << "Execution time average for a matrix dimension:  " << n << " is " <<
+              std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - begin).count()
+              << " us \n ";
 }
 
 int ask_user_for_numbers() {
